@@ -5,15 +5,15 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: myapp
+      app: myapp-richard
   replicas: 2
   template:
     metadata:
       labels:
-        app: myapp
+        app: myapp-richard
     spec:
       containers:
-      - name: myapp
+      - name: myapp-richard
         image: nanajanashia/argocd-app:1.0
         ports:
         - containerPort: 8080
