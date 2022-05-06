@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myapp-argo-application
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/RichardLagerstrom/argocd-app-config-test.git
+    targetRevision: HEAD
+    path: dev
+  destination: 
+    server: https://kubernetes.default.svc
+    namespace: myapp
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    # 'automated' configures argocd to poll Git repository every 3 minutes
+    # then pull and apply changes
+    automated:
+      # automatic undo/override any manual changes to the cluster (kubectl..)
+      # it will override and sync with desired state in github
+      selfHeal: true
+
+      # automatic delete of resources
+      # ie rename or delete a component in yaml file we want argocd to delete that component in the cluster
+      prune: true
